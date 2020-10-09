@@ -5,6 +5,7 @@
 
 html {
     --background-color: transparent;
+    --modal-background-color: hsl(0, 0%, 100%);
     --border-color: hsl(0, 0%, 87.1%);
     --line-color: hsl(0, 0%, 90.2%);
     --text-color-emphasized: hsl(0, 0%, 8%);
@@ -31,6 +32,7 @@ html {
 
 html[data-theme='dark'] {
     --background-color: transparent;
+    --modal-background-color: hsl(0, 0%, 18%);
     --border-color: hsl(0, 0%, 0%);
     --line-color: hsl(202, 9.7%, 22.2%);
     --text-color-emphasized: hsl(0, 0%, 92%);
@@ -854,8 +856,8 @@ div.msc-button-inner:not(.installed-not-removable):active:hover {
     color: var(--small-button-text-color-active);
 }
 
-div.msc-button-inner.will-be-installed,
-div.msc-button-inner.will-be-removed,
+/*div.msc-button-inner.will-be-installed,
+div.msc-button-inner.will-be-removed,*/
 div.msc-button-inner.problem-item {
     display:none!important
 }
@@ -1201,15 +1203,12 @@ div.showcase, div.showcase>div.stage, div.showcase>div.stage * {
 div.stage>img {
     position: absolute;
     height: 200px;
-    width: 100%;
     left: 0;
     /*background-color: #000;*/
     text-align: left;
     overflow: hidden;
     -webkit-transition: opacity 1s ease-in-out;
     opacity: 0;
-    object-fit: cover;
-    object-position: 0 0;
 }
 
 html {
