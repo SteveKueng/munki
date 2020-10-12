@@ -51,13 +51,15 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     @IBOutlet weak var categoriesMenuItem: NSMenuItem!
     @IBOutlet weak var myItemsMenuItem: NSMenuItem!
     @IBOutlet weak var updatesMenuItem: NSMenuItem!
-
-
-    @IBOutlet weak var webViewPlaceholder: NSView!
+    
+    var webViewPlaceholder: NSView!
     var webView: WKWebView!
     
     override func windowDidLoad() {
         super.windowDidLoad()
+        //webViewPlaceholder = MSCWebView()
+        webView = self.chil
+        sidebar = MSCSideBarConrtoller().sidebar
     }
     
     @objc private func onItemClicked() {
@@ -509,7 +511,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         // Stuff we need to initialize when we start
         super.awakeFromNib()
         insertWebView()
-        webView.navigationDelegate = self
+        //webView.navigationDelegate = self
         setNoPageCache()
         alert_controller = MSCAlertController()
         alert_controller.window = self.window
