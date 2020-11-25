@@ -25,7 +25,6 @@
 		C04F828420BB319B00F9C57D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C04F828220BB319B00F9C57D /* MainMenu.xib */; };
 		C04F828D20BB32EA00F9C57D /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F828C20BB32EA00F9C57D /* LogViewController.swift */; };
 		C04F829120BB34D100F9C57D /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F829020BB34D100F9C57D /* Localization.swift */; };
-		C04F829D20BB5B9E00F9C57D /* MSCToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F829C20BB5B9E00F9C57D /* MSCToolbarButton.swift */; };
 		C04F829F20BB713B00F9C57D /* munki.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F829E20BB713B00F9C57D /* munki.swift */; };
 		C04F82A120BB77CF00F9C57D /* FoundationPlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04F82A020BB77CF00F9C57D /* FoundationPlist.swift */; };
 		C0546BD620FBE61A003FE5A6 /* MSCAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0546BD520FBE61A003FE5A6 /* MSCAlertController.swift */; };
@@ -93,7 +92,6 @@
 		C04F828C20BB32EA00F9C57D /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		C04F829020BB34D100F9C57D /* Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		C04F829220BB36C300F9C57D /* Managed Software Center.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Managed Software Center.entitlements"; sourceTree = "<group>"; };
-		C04F829C20BB5B9E00F9C57D /* MSCToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCToolbarButton.swift; sourceTree = "<group>"; };
 		C04F829E20BB713B00F9C57D /* munki.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = munki.swift; sourceTree = "<group>"; };
 		C04F82A020BB77CF00F9C57D /* FoundationPlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationPlist.swift; sourceTree = "<group>"; };
 		C0546BD520FBE61A003FE5A6 /* MSCAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCAlertController.swift; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				C04F828220BB319B00F9C57D /* MainMenu.xib */,
 				C05F878F21055746000DB8D8 /* Info.plist */,
 				56C33E762173DC8E00D727DC /* MSCTableRowView.swift */,
-				C04F829C20BB5B9E00F9C57D /* MSCToolbarButton.swift */,
 				C04F829E20BB713B00F9C57D /* munki.swift */,
 				C0BCAD7C2442A0B3001D2FDD /* appleupdates.swift */,
 				C04F82A020BB77CF00F9C57D /* FoundationPlist.swift */,
@@ -288,7 +285,7 @@
 			attributes = {
 				CLASSPREFIX = MSC;
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1170;
 				ORGANIZATIONNAME = "The Munki Project";
 				TargetAttributes = {
 					C0196316210507DB0009F51A = {
@@ -424,7 +421,6 @@
 				C0546BD820FDAD82003FE5A6 /* power.swift in Sources */,
 				C04F829120BB34D100F9C57D /* Localization.swift in Sources */,
 				C0546BD620FBE61A003FE5A6 /* MSCAlertController.swift in Sources */,
-				C04F829D20BB5B9E00F9C57D /* MSCToolbarButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MSCDockTilePlugin/Info.plist;
@@ -516,6 +513,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = MSCDockTilePlugin/Info.plist;
@@ -644,13 +643,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Managed Software Center/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.googlecode.munki.ManagedSoftwareCenter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -662,13 +663,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Managed Software Center/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.googlecode.munki.ManagedSoftwareCenter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

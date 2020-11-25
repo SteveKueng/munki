@@ -36,8 +36,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     
     // Cocoa UI binding properties
     
-    @IBOutlet weak var updateButtonCell: MSCToolbarButtonCell!
-    
     @IBOutlet weak var navigateBackButton: NSButton!
     @IBOutlet weak var progressSpinner: NSProgressIndicator!
     
@@ -497,8 +495,11 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
             // init our webview
             let replacementWebView = MSCWebView(frame: webViewPlaceholder.frame, configuration: webConfiguration)
             replacementWebView.autoresizingMask = webViewPlaceholder.autoresizingMask
+            //replacementWebView.translatesAutoresizingMaskIntoConstraints = false  // we'll add them later, by hand
             replacementWebView.allowsBackForwardNavigationGestures = false
-            replacementWebView.setValue(false, forKey: "drawsBackground")
+            if #available(OSX 10.12, *) {
+                replacementWebView.setValue(false, forKey: "drawsBackground")
+            }
             // replace the placeholder in the window view with the real webview
             superview.replaceSubview(webViewPlaceholder, with: replacementWebView)
             webView = replacementWebView
@@ -831,12 +832,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     func load_page(_ url_fragment: String) {
         // Tells the WebView to load the appropriate page
         msc_debug_log("load_page request for \(url_fragment)")
-        /*do {
-            try buildPage(url_fragment)
-        } catch {
-            msc_debug_log(
-                "Could not build page for \(url_fragment): \(error)")
-        }*/
         
         let html_file = NSString.path(withComponents: [htmlDir, url_fragment])
         let request = URLRequest(url: URL(fileURLWithPath: html_file),
@@ -851,7 +846,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
                 _alertedUserToOutstandingUpdates = true
             }
         }
-        //navigateBackButton.isHidden = !url_fragment.hasPrefix("detail-")
     }
     
     func handleMunkiURL(_ url: URL) {
@@ -948,7 +942,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
                 decisionHandler(.cancel)
                 return
             }
-            if scheme == "mailto" {
+            if scheme == "mailto" || scheme == "http" || scheme == "https" {
                 // open link in default mail client since WKWebView doesn't
                 // forward these links natively
                 NSWorkspace.shared.open(url)
@@ -1012,16 +1006,16 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        // react to end of displaying a new page
         progressSpinner.stopAnimation(self)
-//        navigateBackButton.isEnabled = webView.canGoBack
-//        navigateBackMenuItem.isEnabled = webView.canGoBack
-//        navigateForwardButton.isEnabled = webView.canGoForward
-//        navigateForwardMenuItem.isEnabled = webView.canGoForward
         clearCache()
+        let allowNavigateBack = webView.canGoBack
         let page_url = webView.url
         let filename = page_url?.lastPathComponent ?? ""
-        navigateBackButton.isHidden = !filename.hasPrefix("detail-")
-        navigateBackMenuItem.isEnabled = filename.hasPrefix("detail-")
+        let onMainPage = (
+            ["category-all.html", "categories.html", "myitems.html", "updates.html"].contains(filename))
+        navigateBackButton.isHidden = !allowNavigateBack || onMainPage
+        navigateBackMenuItem.isEnabled = (allowNavigateBack && !onMainPage)
     }
     
     func webView(_ webView: WKWebView,
