@@ -877,9 +877,15 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         msc_debug_log("load_page request for \(url_fragment)")
         
         let html_file = NSString.path(withComponents: [htmlDir, url_fragment])
-        let request = URLRequest(url: URL(fileURLWithPath: html_file),
+        var request = URLRequest(url: URL(fileURLWithPath: html_file),
                                  cachePolicy: .reloadIgnoringLocalCacheData,
                                  timeoutInterval: TimeInterval(10.0))
+        if url_fragment.starts(with: "http") {
+            request = URLRequest(url: URL(string: url_fragment)!,
+                                     cachePolicy: .reloadIgnoringLocalCacheData,
+                                     timeoutInterval: TimeInterval(10.0))
+        }
+        
         webView.load(request)
         if url_fragment == "updates.html" {
             // clear all earlier update notifications
@@ -981,7 +987,14 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
                 decisionHandler(.cancel)
                 return
             }
-            if scheme == "mailto" || scheme == "http" || scheme == "https" {
+            if scheme == "mailto" {
+                // open link in default mail client since WKWebView doesn't
+                // forward these links natively
+                NSWorkspace.shared.open(url)
+                decisionHandler(.cancel)
+                return
+            }
+            if (scheme == "http" || scheme == "https") && pref("NavigationLinks") == nil {
                 // open link in default mail client since WKWebView doesn't
                 // forward these links natively
                 NSWorkspace.shared.open(url)
