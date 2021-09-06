@@ -208,6 +208,13 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         return false
     }
     
+    func loadCustomNavigation() {
+        if let navigationLinks = pref("NavigationLinks") as? [[String:String]] {
+            sidebar_items += navigationLinks
+            self.sidebar.reloadData()
+        }
+    }
+    
     func updatesOnlyWindowMode() {
         findMenuItem.isHidden = true
         softwareMenuItem.isHidden = true
@@ -265,6 +272,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     
     func loadInitialView() {
         // Called by app delegate from applicationDidFinishLaunching:
+        loadCustomNavigation()
         if optionalInstallsExist() {
             loadAllSoftwarePage(self)
         } else {
@@ -1568,7 +1576,14 @@ extension MainWindowController: NSOutlineViewDelegate {
                 textField.stringValue = title.localized(withComment: "\(title) label")
             }
             if let imageView = view?.imgView {
-                imageView.image = NSImage(named: NSImage.Name(icon))?.tint(color: .secondaryLabelColor)
+                var image = NSImage(named: NSImage.Name(icon))
+                if image == nil, #available(macOS 11.0, *) {
+                    image = NSImage(systemSymbolName: icon, accessibilityDescription: nil)
+                }
+                if image == nil && FileManager.default.fileExists(atPath: icon) {
+                    image = NSImage(byReferencingFile: icon)
+                }
+                imageView.image = image?.tint(color: .secondaryLabelColor)
             }
         }
         return view
