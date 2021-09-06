@@ -1616,7 +1616,7 @@ extension NSImage {
         imageRect.fill(using: .sourceAtop)
         
         image.unlockFocus()
-        image.isTemplate = false
+        image.isTemplate = true
         
         return image
     }
