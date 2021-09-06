@@ -20,10 +20,10 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     var htmlDir = ""
     var wkContentController = WKUserContentController()
     
-    let sidebar_items = [["title": "Software", "icon": "AllItemsTemplate"],
-                 ["title": "Categories", "icon": "toolbarCategoriesTemplate"],
-                 ["title": "My Items", "icon": "MyStuffTemplate"],
-                 ["title": "Updates", "icon": "updatesTemplate"]]
+    var sidebar_items = [["title": "Software", "icon": "AllItemsTemplate", "site": "category-all.html"],
+                 ["title": "Categories", "icon": "toolbarCategoriesTemplate", "site": "categories.html"],
+                 ["title": "My Items", "icon": "MyStuffTemplate", "site": "myitems.html"],
+                 ["title": "Updates", "icon": "updatesTemplate", "site": "updates.html"]]
     
     // status properties
     var _status_title = ""
@@ -62,19 +62,8 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
 
     @objc private func onItemClicked() {
         if 0 ... sidebar_items.count ~= sidebar.clickedRow {
-                clearSearchField()
-                switch sidebar.clickedRow {
-                    case 0:
-                        loadAllSoftwarePage(self)
-                    case 1:
-                        loadCategoriesPage(self)
-                    case 2:
-                        loadMyItemsPage(self)
-                    case 3:
-                        loadUpdatesPage(self)
-                    default:
-                        loadUpdatesPage(self)
-            }
+            clearSearchField()
+            load_page(self.sidebar_items[sidebar.clickedRow]["site"] ?? "updates.html")
         }
     }
     
