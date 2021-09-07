@@ -107,7 +107,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
     
     func currentPageIsUpdatesPage() -> Bool {
         // return true if current tab selected is Updates
-        return sidebar.selectedRow == 3
+        return sidebar.selectedRow == sidebar_items.firstIndex(of: ["title": "Updates", "icon": "updatesTemplate", "site": "updates.html"])
     }
 
     func newTranslucentWindow(screen: NSScreen) -> NSWindow {
@@ -811,8 +811,9 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         let updateCount = getUpdateCount()
         
         var cellView:MSCTableCellView?
-
-        if let view = self.sidebar.rowView(atRow: 3, makeIfNecessary: false) {
+        
+        let updateIndex = sidebar_items.firstIndex(of: ["title": "Updates", "icon": "updatesTemplate", "site": "updates.html"]) ?? 0
+        if let view = self.sidebar.rowView(atRow: updateIndex, makeIfNecessary: false) {
             cellView = view.view(atColumn: 0) as? MSCTableCellView
         }
 
