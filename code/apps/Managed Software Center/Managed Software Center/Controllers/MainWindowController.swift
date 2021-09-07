@@ -227,8 +227,14 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         softwareMenuItem.isHidden = true
         categoriesMenuItem.isHidden = true
         myItemsMenuItem.isHidden = true
+        
+        // adjusts window controls on newer OSs
+        if #available(macOS 10.13, *) {
+            let customToolbar = NSToolbar()
+            self.window?.titleVisibility = .hidden
+            self.window?.toolbar = customToolbar
+        }
     
-        if(customNavigationLinks() != nil) {
             //remove sidebar items
             sidebar_items.removeAll(where: { $0 == ["title": "Software", "icon": "AllItemsTemplate", "site": "category-all.html"] })
             sidebar_items.removeAll(where: { $0 == ["title": "Categories", "icon": "toolbarCategoriesTemplate", "site": "categories.html"] })
@@ -240,12 +246,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
             webViewContainer.frame.origin.x = -1
             webViewContainer.frame.size.width = self.window!.frame.width
             navigateBackButton.frame.origin.x = 90
-            // adjusts window controls on newer OSs
-            if #available(macOS 10.13, *) {
-                let customToolbar = NSToolbar()
-                self.window?.titleVisibility = .hidden
-                self.window?.toolbar = customToolbar
-            }
         }
         
         loadUpdatesPage(self)
