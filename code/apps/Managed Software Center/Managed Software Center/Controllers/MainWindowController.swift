@@ -208,8 +208,15 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         return false
     }
     
-    func loadCustomNavigation() {
+    func customNavigationLinks() -> [[String:String]]? {
         if let navigationLinks = pref("NavigationLinks") as? [[String:String]] {
+            return navigationLinks
+        }
+        return nil
+    }
+    
+    func loadCustomNavigation() {
+        if let navigationLinks = customNavigationLinks() {
             sidebar_items += navigationLinks
             self.sidebar.reloadData()
         }
@@ -995,7 +1002,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
                 decisionHandler(.cancel)
                 return
             }
-            if (scheme == "http" || scheme == "https") && pref("NavigationLinks") == nil {
+            if (scheme == "http" || scheme == "https") && customNavigationLinks() == nil {
                 // open link in default mail client since WKWebView doesn't
                 // forward these links natively
                 NSWorkspace.shared.open(url)
