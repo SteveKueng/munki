@@ -181,7 +181,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         }
         
         // disable all of the other controls
-        updatesOnlyWindowMode()
+        updatesOnlyWindowMode(force: true)
         loadUpdatesPage(self)
         
         // set flag to cause us to always be brought to front
@@ -222,7 +222,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
         }
     }
     
-    func updatesOnlyWindowMode() {
+    func updatesOnlyWindowMode(force:Bool = false) {
         findMenuItem.isHidden = true
         softwareMenuItem.isHidden = true
         categoriesMenuItem.isHidden = true
@@ -235,6 +235,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate, WKNavigationDe
             self.window?.toolbar = customToolbar
         }
     
+        if(customNavigationLinks() != nil) && !force {
             //remove sidebar items
             sidebar_items.removeAll(where: { $0 == ["title": "Software", "icon": "AllItemsTemplate", "site": "category-all.html"] })
             sidebar_items.removeAll(where: { $0 == ["title": "Categories", "icon": "toolbarCategoriesTemplate", "site": "categories.html"] })
